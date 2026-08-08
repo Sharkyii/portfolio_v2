@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Arial, Helvetica, sans-serif">
+  <title>Data Layer</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#131f1c"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#10b981"/>
+    </marker>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <text x="80" y="130" font-size="15" letter-spacing="3" fill="#10b981" font-weight="700">AUTOMOBILE · DATA PLATFORM</text>
+  <text x="78" y="210" font-size="52" font-weight="700" fill="#f8fafc">Data Layer</text>
+
+  <text font-size="20" fill="#94a3b8">
+    <tspan x="80" y="256">Databricks lakehouse behind the Master Agent —</tspan>
+    <tspan x="80" y="286">quick RAG diagnosis plus batch GAT retraining.</tspan>
+  </text>
+
+  <g font-size="15" font-weight="600" fill="#10b981">
+    <rect x="80" y="322" width="106" height="34" rx="17" fill="#10241d" stroke="#10b981" stroke-width="1.5"/>
+    <text x="133" y="344" text-anchor="middle">XGBoost</text>
+
+    <rect x="198" y="322" width="118" height="34" rx="17" fill="#10241d" stroke="#10b981" stroke-width="1.5"/>
+    <text x="257" y="344" text-anchor="middle">LightGBM</text>
+
+    <rect x="328" y="322" width="70" height="34" rx="17" fill="#10241d" stroke="#10b981" stroke-width="1.5"/>
+    <text x="363" y="344" text-anchor="middle">GAT</text>
+
+    <rect x="80" y="368" width="150" height="34" rx="17" fill="#10241d" stroke="#10b981" stroke-width="1.5"/>
+    <text x="155" y="390" text-anchor="middle">Medallion ETL</text>
+  </g>
+
+  <text x="80" y="560" font-size="14" fill="#4b6a5f">tools/projects/Automobile/DataLayer</text>
+
+  <!-- Individual Module pipeline -->
+  <text x="660" y="150" font-size="17" font-weight="700" fill="#e2e8f0">Individual Module — RAG diagnosis</text>
+  <g stroke="#10b981" stroke-width="2.5">
+    <circle cx="700" cy="215" r="34" fill="#0f1a17"/>
+    <path d="M690 215 h20 M700 205 v20" stroke="#10b981" stroke-width="2"/>
+    <line x1="738" y1="215" x2="796" y2="215" marker-end="url(#arrow)"/>
+    <rect x="800" y="187" width="110" height="56" rx="12" fill="#0f1a17"/>
+    <line x1="914" y1="215" x2="972" y2="215" marker-end="url(#arrow)"/>
+    <circle cx="1010" cy="215" r="34" fill="#10b981" stroke="none"/>
+  </g>
+  <text x="855" y="221" font-size="16" font-weight="700" fill="#10b981" text-anchor="middle">RAG</text>
+  <path d="M998 215 l8 8 l16 -17" fill="none" stroke="#0b1220" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Batch Module pipeline -->
+  <text x="660" y="330" font-size="17" font-weight="700" fill="#e2e8f0">Batch Module — retraining</text>
+  <g>
+    <rect x="670" y="352" width="100" height="24" rx="5" fill="#9a6a3a"/>
+    <text x="720" y="369" font-size="12" fill="#0b1220" text-anchor="middle" font-weight="700">BRONZE</text>
+    <rect x="670" y="380" width="100" height="24" rx="5" fill="#9ca3af"/>
+    <text x="720" y="397" font-size="12" fill="#0b1220" text-anchor="middle" font-weight="700">SILVER</text>
+    <rect x="670" y="408" width="100" height="24" rx="5" fill="#d4af37"/>
+    <text x="720" y="425" font-size="12" fill="#0b1220" text-anchor="middle" font-weight="700">GOLD</text>
+
+    <line x1="778" y1="390" x2="828" y2="390" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="832" y="362" width="118" height="56" rx="12" fill="#0f1a17" stroke="#10b981" stroke-width="2.5"/>
+    <text x="891" y="396" font-size="15" font-weight="700" fill="#10b981" text-anchor="middle">Ensemble</text>
+
+    <line x1="958" y1="390" x2="1000" y2="390" stroke="#10b981" stroke-width="2.5" marker-end="url(#arrow)"/>
+
+    <rect x="1004" y="347" width="136" height="88" rx="12" fill="#0f1a17" stroke="#10b981" stroke-width="2.5"/>
+    <g stroke="#10b981" stroke-width="1.5">
+      <line x1="1030" y1="370" x2="1070" y2="358"/>
+      <line x1="1030" y1="370" x2="1070" y2="405"/>
+      <line x1="1070" y1="358" x2="1112" y2="378"/>
+      <line x1="1070" y1="405" x2="1112" y2="378"/>
+    </g>
+    <circle cx="1030" cy="370" r="6" fill="#10b981"/>
+    <circle cx="1070" cy="358" r="6" fill="#10b981"/>
+    <circle cx="1070" cy="405" r="6" fill="#10b981"/>
+    <circle cx="1112" cy="378" r="6" fill="#10b981"/>
+    <text x="1072" y="424" font-size="13" font-weight="700" fill="#94a3b8" text-anchor="middle">GAT</text>
+  </g>
+</svg>

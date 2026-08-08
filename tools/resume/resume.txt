@@ -1,0 +1,49 @@
+Sneh Kansagara
+Phone: +91 7990409021
+Email: snehkansagra@gmail.com
+LinkedIn: https://www.linkedin.com/in/sneh-kansagara-b61362312/
+GitHub: https://github.com/Sharkyii
+Codeforces (Pupil): https://codeforces.com/profile/Sharkyi
+LeetCode: https://leetcode.com/u/Oscar2007/
+
+EDUCATION
+IIIT Gwalior — B.Tech in Mathematics and Computing (Aug 2024 - Aug 2028)
+JEE Percentile: 99.35. Placement Representative.
+
+EXPERIENCE
+Data Science Intern, Socks Carving Company (Remote) — June 2026 - August 2026
+- Built an end-to-end LLM-powered chatbot and document analytics workflow, automating business and customer data analysis and reducing manual reporting effort.
+- Delivered large-scale reporting and customer segmentation pipelines covering order intelligence, city/pincode analysis, and repeat-customer trends, plus advanced analytics including churn prediction, Customer Lifetime Value (CLV), and demand forecasting.
+
+AI Intern (Team Lead), Aigetai Private Limited (Remote) — June 2025 - July 2025
+- Developed a production-ready Reddit post-scheduling system supporting text, image, link, and video formats with automated multi-post workflows.
+- Built analytics modules processing 10,000+ data points to track engagement trends, impressions, and performance insights for data-driven content decisions.
+
+RESEARCH
+Multi-Agent Traffic Simulation & Calibration for a Real Signalized Junction — IIIT Gwalior, Jan 2026 - Present
+- Converted CVAT video annotations into per-vehicle trajectories with turning-movement reconstruction for a real 8-arm junction.
+- Simulated all 8 roads under a real 4-phase signal cycle using a hybrid Social Force + IDM multi-agent model with collision resolution. Automated parameter calibration via annealed random search across 8 road datasets.
+
+PROJECTS
+GridLock Command Center — Finalist, Flipkart GRiDLock 2026
+https://github.com/Advait2912/Mayhem-Command-Center/tree/frontend-integration
+- Built an event-driven congestion pipeline for Bengaluru Traffic Police that analyzes historical and traffic events using a multi-stage ML pipeline for closure triage, duration prediction, conflict detection, and network routing to generate actionable advisories.
+- Engineered a FastAPI backend serving ML models and in-memory spatial graphs with Pydantic schemas, paired with a React 18 + Vite (TypeScript) dashboard for real-time advisory visualization.
+
+AI-Powered Volunteer Intelligence & Disaster Response System — Finalist, IIT Kanpur 2025
+https://github.com/BhaaluSyahi/Research-Agent
+- Built a scalable NGO platform for volunteer-task matching using Graph Neural Networks (GNNs) in PyTorch Geometric, scoring candidates on embeddings, geographic proximity, and skill affinity.
+- Developed RAG-based semantic retrieval with Gemini embeddings and pgvector cosine search, with integrated speech recognition and NLP for chatbot automation.
+
+TECHNICAL SKILLS
+Languages & Core: Python, C++, SQL, Java, Kotlin, Go
+ML & AI: PyTorch, Deep Learning, LLMs, NLP, RAG, LangGraph, Reinforcement Learning, GNNs, AutoML, NAS, Optuna
+Data & MLOps: Kubeflow, DVC, Kafka, Redis, Qdrant, Neo4j, pgvector, Tavily API, Docker, CI/CD, n8n
+
+ACHIEVEMENTS
+- Finalist, Flipkart GRiDLock 2026; Finalist at IIT Kanpur Hackathon (10th of 600+ teams); Semi-Finalist at EY Hackathon (Top 100 of 9,000+ teams); AIR 1243 in Goldman Sachs Hackathon; ranked Top 1,500 of 100,000+ in Google Big Code.
+- Solved 500+ problems on LeetCode and Codeforces.
+- Open Source: merged 40+ PRs across ML repositories including Kubeflow, Gitmesh (LFDT), MLLAM, OpenClimateFix, and Skore.
+
+LEADERSHIP & ACTIVITIES
+- Event Head, E-Cell IIIT Gwalior; Core Member, Infotsav (Central India's Largest Fest); taught Data Science to 300+ students through AASF Data Science 101.

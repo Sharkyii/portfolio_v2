@@ -1,0 +1,2 @@
+Research project modeling agent-based traffic behavior at a signalized junction, calibrated against real drone footage — includes a multi-phase (4-arm) signal cycle, IDM/force-based car-following, and cross-arm turning-movement routing derived from ground-truth trajectories.
+https://github.com/Sharkyii/multiphase-signal-sim

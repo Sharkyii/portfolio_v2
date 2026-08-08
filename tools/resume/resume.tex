@@ -1,0 +1,180 @@
+%-------------------------
+% Resume in LaTeX (AI/ML Focus) — ATS Optimized
+%-------------------------
+
+\documentclass[letterpaper,11pt]{article}
+
+\usepackage{latexsym}
+\usepackage[empty]{fullpage}
+\usepackage{titlesec}
+\usepackage{marvosym}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{fontawesome5}
+\usepackage[dvipsnames]{xcolor}
+\input{glyphtounicode}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\addtolength{\oddsidemargin}{-0.6in}
+\addtolength{\evensidemargin}{-0.6in}
+\addtolength{\textwidth}{1.19in}
+\addtolength{\topmargin}{-.7in}
+\addtolength{\textheight}{1.4in}
+
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0in}
+
+\titleformat{\section}{
+  \vspace{-4pt}\color{BrickRed}\scshape\raggedright\large\bfseries
+}{}{0em}{}[\color{BrickRed}\titlerule \vspace{-5pt}]
+
+% Ensures machine-readable, ATS-parseable PDF text
+\pdfgentounicode=1
+
+\newcommand{\resumeItem}[1]{\item\footnotesize{{#1 \vspace{-2pt}}}}
+
+\newcommand{\resumeSubheading}[4]{
+  \vspace{2pt}
+  \begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}X r@{}}
+    \textbf{#1} & \textbf{\small #2} \\
+    \textit{\small#3} & \textit{\small #4} \\
+  \end{tabularx}\vspace{-5pt}
+}
+
+\newcommand{\resumeProjectHeading}[3]{
+    \vspace{2pt}
+    \begin{tabular*}{1.0\textwidth}{l@{\extracolsep{\fill}}r}
+      \small\textbf{#1} $|$ \emph{#2} & \small #3 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+% Single-field heading: no "|" separator, no empty groups
+\newcommand{\resumeSingleHeading}[2]{
+    \vspace{2pt}
+    \begin{tabular*}{1.0\textwidth}{l@{\extracolsep{\fill}}r}
+      \small\textbf{#1} & \small #2 \\
+    \end{tabular*}\vspace{-5pt}
+}
+
+\newcommand{\resumeItemListStart}{\begin{itemize}[leftmargin=0.15in, itemsep=-2pt]}
+\newcommand{\resumeItemListEnd}{\end{itemize}\vspace{-5pt}}
+\newcommand{\resumeSubHeadingListStart}{\begin{itemize}[leftmargin=0in, label={}, itemsep=-5pt]}
+\newcommand{\resumeSubHeadingListEnd}{\end{itemize}}
+
+\renewcommand\labelitemi{$\vcenter{\hbox{\tiny$\bullet$}}$}
+
+\begin{document}
+
+%---------- HEADER ----------
+\begin{center}
+  {\Huge \scshape Sneh Kansagara} \\ \vspace{5pt}
+  \small
+  \faPhone\ +91 7990409021 \quad
+  \href{mailto:snehkansagra@gmail.com}{\faEnvelope\ \underline{snehkansagra@gmail.com}} \quad
+  \href{https://www.linkedin.com/in/sneh-kansagara-b61362312/}{\faLinkedin\ \underline{LinkedIn}} \quad
+  \href{https://github.com/Sharkyii}{\faGithub\ \underline{GitHub}} \quad
+  \href{https://codeforces.com/profile/Sharkyi}{\faCode\ \underline{Codeforces (Pupil)}} \quad
+  \href{https://leetcode.com/u/Oscar2007/}{\faCode\ \underline{LeetCode}}
+\end{center}
+
+%---------- EDUCATION ----------
+%---------- EDUCATION ----------
+\section{Education}
+\resumeSubHeadingListStart
+  \item
+    \begin{tabular*}{0.97\textwidth}{l@{\extracolsep{\fill}}r}
+      \textbf{IIIT Gwalior} - {B.Tech in Mathematics and Computing} & \textbf{Aug 2024 -- Aug 2028} \\
+      \multicolumn{2}{l}{{\small JEE Percentile: 99.35 \hfill \textit{Placement Representative}}} \\
+    \end{tabular*}
+\resumeSubHeadingListEnd
+
+%---------- EXPERIENCE ----------
+\section{Experience}
+
+\resumeSubheading
+{Data Science Intern}{June 2026 -- August 2026}
+{\href{}{Socks Carving Company}}{Remote}
+\resumeItemListStart
+\resumeItem{Built an end-to-end LLM-powered \textbf{chatbot} and document analytics workflow, automating business and customer data analysis and reducing manual reporting effort.}
+\resumeItem{Delivered large-scale reporting and \textbf{customer segmentation pipelines} covering order intelligence, city/pincode analysis, and repeat-customer trends, plus advanced analytics including churn prediction, Customer Lifetime Value (CLV), and demand forecasting.}
+\resumeItemListEnd
+
+\resumeSubheading
+{AI Intern (Team Lead)}{June 2025 -- July 2025}
+{\href{https://drive.google.com/file/d/1BTefyAUkEoByocCRK1dJMboy3_-ZWvuO/view?usp=drive_link}{Aigetai Private Limited}}{Remote}
+\resumeItemListStart
+\resumeItem{Developed a production-ready Reddit \textbf{post-scheduling system} supporting text, image, link, and video formats with automated multi-post workflows.}
+\resumeItem{Built \textbf{analytics modules} processing 10,000+ data points to track engagement trends, impressions, and performance insights for data-driven content decisions.}
+\resumeItemListEnd
+
+%---------- RESEARCH ----------
+\section{Research}
+
+\resumeSingleHeading
+{Multi-Agent Traffic Simulation \& Calibration for a Real Signalized Junction}
+% {\textnormal{under \href{https://scholar.google.com/citations?user=DnTRJxsAAAAJ\&hl=en\&oi=ao}{Prof. Rahul Kala}, IIITM}}
+{\textnormal{\textbf{Jan 2026 -- Present}, IIIT Gwalior}}
+\resumeItemListStart
+\resumeItem{Converted \textbf{CVAT video annotations} into per-vehicle trajectories with turning-movement reconstruction for a real 8-arm junction.}
+\resumeItem{Simulated all 8 roads under a real \textbf{4-phase signal cycle} using a hybrid \textbf{Social Force + IDM} multi-agent model with collision resolution. Automated parameter calibration via \textbf{annealed random search} across 8 road datasets.}
+\resumeItemListEnd
+%---------- PROJECTS ----------
+\section{Projects}
+\resumeProjectHeading
+{\href{https://github.com/Advait2912/Mayhem-Command-Center/tree/frontend-integration}{GridLock Command Center}}
+{Finalist, Flipkart GRiDLock 2026}{}
+\resumeItemListStart
+\resumeItem{Built an event-driven congestion pipeline for \textbf{Bengaluru Traffic Police} that analyzes historical and traffic events using a multi-stage ML pipeline for closure triage, duration prediction, conflict detection, and network routing to generate actionable advisories.}
+\resumeItem{Engineered a FastAPI backend serving ML models and in-memory spatial graphs with Pydantic schemas, paired with a React 18 + Vite (TypeScript) dashboard for real-time advisory visualization.}
+\resumeItemListEnd
+
+\vspace{4pt}
+\resumeProjectHeading
+{\href{https://github.com/BhaaluSyahi/Research-Agent}{AI-Powered Volunteer Intelligence \& Disaster Response System}}
+{Finalist, IIT Kanpur 2025}{}
+\resumeItemListStart
+\resumeItem{Built a scalable \textbf{NGO platform} for volunteer--task matching using Graph Neural Networks (GNNs) in PyTorch Geometric, scoring candidates on embeddings, geographic proximity, and skill affinity.}
+\resumeItem{Developed RAG-based semantic retrieval with Gemini embeddings and pgvector cosine search, with integrated speech recognition and NLP for chatbot automation.}
+\resumeItemListEnd
+
+%---------- TECHNICAL SKILLS ----------
+\section{Technical Skills}
+{\footnotesize
+\begin{itemize}[label=--, leftmargin=0.2in, itemsep=0pt, topsep=1pt]
+  \item \textbf{Languages \& Core:} Python, C++, SQL, Java, Kotlin, Go
+  \item \textbf{ML \& AI:} PyTorch, Deep Learning, LLMs, NLP, RAG, LangGraph, Reinforcement Learning, GNNs, AutoML, NAS, Optuna
+  \item \textbf{Data \& MLOps:} Kubeflow, DVC, Kafka, Redis, Qdrant, Neo4j, pgvector, Tavily API, Docker, CI/CD, n8n
+\end{itemize}
+}
+
+%---------- ACHIEVEMENTS ----------
+\section{Achievements}
+{\footnotesize
+\begin{itemize}[leftmargin=0.15in, label=\textbullet, itemsep=2pt, topsep=1pt]
+  \item Finalist, \textbf{Flipkart GRiDLock} 2026; Finalist at \href{https://drive.google.com/file/d/14Hq7lurUI6fCBCNJXnK_vKUqB5ojXl__/view?usp=drive_link}{\textbf{IIT Kanpur} Hackathon} (10th of 600+ teams); Semi-Finalist at \textbf{EY} Hackathon (Top 100 of 9,000+ teams); AIR 1243 in \textbf{Goldman Sachs} Hackathon , Ranked \textbf{Top 1,500 of 100,000+} in \href{https://www.linkedin.com/in/sneh-kansagara-b61362312/overlay/Certifications/1803360977/treasury/?profileId=ACoAAE9uPfkBP-I8YnukmQUjkkoGygXSvywC8q8}{\textbf{Google Big Code}}; .
+  \item  Solved \textbf{500+ problems} on \href{https://leetcode.com/u/Oscar2007/}{LeetCode} and \href{https://codeforces.com/profile/Sharkyi}{Codeforces}.
+
+  \item \textbf{Open Source:} Merged \textbf{40+ PRs} across ML repositories including Kubeflow, Gitmesh (LFDT), MLLAM, OpenClimateFix, and Skore.
+
+\end{itemize}
+}
+
+%---------- LEADERSHIP & ACTIVITIES ----------
+\section{Leadership \& Activities}
+{\footnotesize
+\begin{itemize}[leftmargin=0.15in, label=\textbullet, itemsep=0pt, topsep=1pt]
+  \item \textbf{Event Head}, E-Cell IIIT Gwalior; \textbf{Core Member}, Infotsav (Central India's Largest Fest); taught Data Science to \textbf{300+ students} through \textbf{AASF Data Science 101}.
+\end{itemize}
+}
+
+\end{document}

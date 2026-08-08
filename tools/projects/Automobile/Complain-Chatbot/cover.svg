@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" font-family="Arial, Helvetica, sans-serif">
+  <title>Vehicle Safety Complaint Chatbot</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="1" stop-color="#161f34"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <text x="80" y="130" font-size="15" letter-spacing="3" fill="#ff5c5c" font-weight="700">AUTOMOBILE · COMPLAINT INTAKE</text>
+
+  <text x="78" y="210" font-size="48" font-weight="700" fill="#f8fafc">Vehicle Safety</text>
+  <text x="78" y="266" font-size="48" font-weight="700" fill="#f8fafc">Complaint Chatbot</text>
+
+  <text font-size="20" fill="#94a3b8">
+    <tspan x="80" y="316">Streamlit chatbot that uses RAG to validate VINs,</tspan>
+    <tspan x="80" y="346">states &amp; safety fields, then logs to Google Sheets.</tspan>
+  </text>
+
+  <!-- badges -->
+  <g font-size="15" font-weight="600" fill="#ff5c5c">
+    <rect x="80" y="382" width="70" height="34" rx="17" fill="#151b2c" stroke="#ff5c5c" stroke-width="1.5"/>
+    <text x="115" y="404" text-anchor="middle">RAG</text>
+
+    <rect x="164" y="382" width="172" height="34" rx="17" fill="#151b2c" stroke="#ff5c5c" stroke-width="1.5"/>
+    <text x="250" y="404" text-anchor="middle">VIN Validation</text>
+
+    <rect x="80" y="428" width="162" height="34" rx="17" fill="#151b2c" stroke="#ff5c5c" stroke-width="1.5"/>
+    <text x="161" y="450" text-anchor="middle">Google Sheets</text>
+
+    <rect x="256" y="428" width="160" height="34" rx="17" fill="#151b2c" stroke="#ff5c5c" stroke-width="1.5"/>
+    <text x="336" y="450" text-anchor="middle">Llama-3.1-8B</text>
+  </g>
+
+  <text x="80" y="560" font-size="14" fill="#4b5b76">tools/projects/Automobile/Complain-Chatbot</text>
+
+  <!-- chat window illustration -->
+  <g>
+    <rect x="660" y="90" width="440" height="300" rx="18" fill="#111827" stroke="#ff5c5c" stroke-width="2"/>
+    <rect x="676" y="106" width="408" height="26" rx="8" fill="#ff5c5c" fill-opacity="0.18"/>
+    <circle cx="692" cy="119" r="5" fill="#ff5c5c"/>
+    <circle cx="710" cy="119" r="5" fill="#475569"/>
+    <circle cx="728" cy="119" r="5" fill="#475569"/>
+
+    <rect x="692" y="152" width="270" height="34" rx="12" fill="#1f2937"/>
+    <rect x="854" y="196" width="230" height="34" rx="12" fill="#ff5c5c" fill-opacity="0.85"/>
+    <rect x="692" y="240" width="310" height="34" rx="12" fill="#1f2937"/>
+    <rect x="884" y="284" width="200" height="34" rx="12" fill="#ff5c5c" fill-opacity="0.85"/>
+
+    <rect x="676" y="330" width="408" height="42" rx="10" fill="#0b1220" stroke="#334155" stroke-width="1.5"/>
+    <path d="M1042 351 l14 -8 v16 z" fill="#ff5c5c"/>
+  </g>
+
+  <!-- car illustration -->
+  <g>
+    <path d="M730 430 L768 382 L900 382 L942 430 Z" fill="#1f2937" stroke="#ff5c5c" stroke-width="2" stroke-linejoin="round"/>
+    <path d="M786 424 L812 394 L878 394 L900 424 Z" fill="#0b1220" fill-opacity="0.7"/>
+    <rect x="690" y="424" width="320" height="76" rx="22" fill="#1f2937" stroke="#ff5c5c" stroke-width="2"/>
+    <circle cx="754" cy="504" r="26" fill="#0b1220" stroke="#334155" stroke-width="6"/>
+    <circle cx="946" cy="504" r="26" fill="#0b1220" stroke="#334155" stroke-width="6"/>
+    <circle cx="1000" cy="452" r="5" fill="#fbbf24"/>
+
+    <circle cx="994" cy="392" r="27" fill="#ff5c5c"/>
+    <path d="M982 392 l9 9 l17 -18" fill="none" stroke="#0b1220" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>
