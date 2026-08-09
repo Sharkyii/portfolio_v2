@@ -1,0 +1,101 @@
+{
+  "name": "Sneh Kansagara",
+  "links": {
+    "email": "snehkansagra@gmail.com",
+    "linkedin": "https://www.linkedin.com/in/sneh-kansagara-b61362312/",
+    "github": "https://github.com/Sharkyii",
+    "codeforces": "https://codeforces.com/profile/Sharkyi",
+    "leetcode": "https://leetcode.com/u/Oscar2007/"
+  },
+  "education": [
+    {
+      "institution": "IIIT Gwalior",
+      "credential": "B.Tech in Mathematics and Computing",
+      "start": "Aug 2024",
+      "end": "Aug 2028",
+      "detail": "JEE Percentile: 99.35. Placement Representative."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Data Science Intern",
+      "org": "Socks Carving Company",
+      "location": "Remote",
+      "start": "June 2026",
+      "end": "August 2026",
+      "highlights": [
+        "Built an end-to-end LLM-powered chatbot and document analytics workflow, automating business and customer data analysis and reducing manual reporting effort.",
+        "Delivered large-scale reporting and customer segmentation pipelines covering order intelligence, city/pincode analysis, and repeat-customer trends, plus advanced analytics including churn prediction, Customer Lifetime Value (CLV), and demand forecasting."
+      ]
+    },
+    {
+      "role": "AI Intern (Team Lead)",
+      "org": "Aigetai Private Limited",
+      "location": "Remote",
+      "start": "June 2025",
+      "end": "July 2025",
+      "highlights": [
+        "Developed a production-ready Reddit post-scheduling system supporting text, image, link, and video formats with automated multi-post workflows.",
+        "Built analytics modules processing 10,000+ data points to track engagement trends, impressions, and performance insights for data-driven content decisions."
+      ]
+    }
+  ],
+  "research": [
+    {
+      "title": "Multi-Agent Traffic Simulation & Calibration for a Real Signalized Junction",
+      "org": "IIIT Gwalior",
+      "start": "Jan 2026",
+      "end": "Present",
+      "highlights": [
+        "Converted CVAT video annotations into per-vehicle trajectories with turning-movement reconstruction for a real 8-arm junction.",
+        "Simulated all 8 roads under a real 4-phase signal cycle using a hybrid Social Force + IDM multi-agent model with collision resolution. Automated parameter calibration via annealed random search across 8 road datasets."
+      ]
+    }
+  ],
+  "achievements": [
+    {
+      "title": "Finalist, Flipkart GRiDLock 2026",
+      "detail": "GridLock Command Center — event-driven traffic congestion pipeline"
+    },
+    {
+      "title": "Finalist, IIT Kanpur Hackathon 2025",
+      "detail": "10th of 600+ teams — AI-Powered Volunteer Intelligence & Disaster Response System"
+    },
+    {
+      "title": "Semi-Finalist, EY Hackathon",
+      "detail": "Top 100 of 9,000+ teams"
+    },
+    {
+      "title": "AIR 1243, Goldman Sachs Hackathon"
+    },
+    {
+      "title": "Top 1,500 of 100,000+, Google Big Code"
+    },
+    {
+      "title": "500+ problems solved",
+      "detail": "LeetCode and Codeforces (Pupil)"
+    },
+    {
+      "title": "40+ merged open-source PRs",
+      "detail": "Kubeflow, Gitmesh (LFDT), MLLAM, OpenClimateFix, Skore"
+    }
+  ],
+  "leadership": [
+    {
+      "title": "Event Head, E-Cell IIIT Gwalior"
+    },
+    {
+      "title": "Core Member, Infotsav",
+      "detail": "Central India's largest college fest"
+    },
+    {
+      "title": "Taught Data Science to 300+ students",
+      "detail": "AASF Data Science 101"
+    }
+  ],
+  "skills": {
+    "Languages & Core": ["Python", "C++", "SQL", "Java", "Kotlin", "Go"],
+    "ML & AI": ["PyTorch", "Deep Learning", "LLMs", "NLP", "RAG", "LangGraph", "Reinforcement Learning", "GNNs", "AutoML", "NAS", "Optuna"],
+    "Data & MLOps": ["Kubeflow", "DVC", "Kafka", "Redis", "Qdrant", "Neo4j", "pgvector", "Tavily API", "Docker", "CI/CD", "n8n"]
+  }
+}

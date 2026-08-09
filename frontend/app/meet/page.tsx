@@ -1,0 +1,122 @@
+"use client";
+
+import Link from "next/link";
+import { useState } from "react";
+import { BookingForm } from "@/components/meeting/BookingForm";
+import { ConfirmationCard } from "@/components/meeting/ConfirmationCard";
+import { DatePicker } from "@/components/meeting/DatePicker";
+import { NLScheduler } from "@/components/meeting/NLScheduler";
+import { TimeSlotGrid } from "@/components/meeting/TimeSlotGrid";
+import { Card } from "@/components/ui/Card";
+import { Glow } from "@/components/ui/Glow";
+import { cn } from "@/lib/cn";
+import type { BookingResponse } from "@/lib/types";
+
+type Mode = "pick" | "nl";
+
+export default function MeetPage() {
+  const [mode, setMode] = useState<Mode>("pick");
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
+  const [duration, setDuration] = useState(30);
+  const [booking, setBooking] = useState<BookingResponse | null>(null);
+  const [slotTaken, setSlotTaken] = useState(false);
+
+  function handleSelectDate(date: Date) {
+    setSelectedDate(date);
+    setSelectedSlot(null);
+    setSlotTaken(false);
+  }
+
+  function handleSelectSlot(slot: Date) {
+    setSelectedSlot(slot);
+    setSlotTaken(false);
+  }
+
+  return (
+    <main className="relative flex-1 px-6 py-24">
+      <Glow className="left-1/2 top-0 h-[500px] w-[800px] -translate-x-1/2" />
+
+      <div className="relative mx-auto max-w-3xl">
+        <Link href="/" className="mb-8 inline-block text-sm text-muted hover:text-foreground">
+          ← Back
+        </Link>
+
+        <div className="mb-8 text-center">
+          <p className="mb-3 text-xs font-medium uppercase tracking-[0.2em] text-accent-2">
+            Schedule
+          </p>
+          <h1 className="text-3xl font-semibold tracking-tight sm:text-4xl">
+            Book a meeting
+          </h1>
+        </div>
+
+        <div className="mb-8 flex justify-center gap-2">
+          <button
+            onClick={() => setMode("pick")}
+            className={cn(
+              "rounded-full px-4 py-2 text-sm transition-colors",
+              mode === "pick" ? "bg-white/10 text-foreground" : "text-muted hover:text-foreground"
+            )}
+          >
+            Pick a slot
+          </button>
+          <button
+            onClick={() => setMode("nl")}
+            className={cn(
+              "rounded-full px-4 py-2 text-sm transition-colors",
+              mode === "nl" ? "bg-white/10 text-foreground" : "text-muted hover:text-foreground"
+            )}
+          >
+            Just tell me when
+          </button>
+        </div>
+
+        <Card className="p-6 sm:p-8">
+          {mode === "nl" ? (
+            <NLScheduler />
+          ) : booking ? (
+            <ConfirmationCard booking={booking} />
+          ) : (
+            <div className="space-y-6">
+              <div>
+                <p className="mb-2 text-xs text-muted">Pick a date</p>
+                <DatePicker selected={selectedDate} onSelect={handleSelectDate} />
+              </div>
+
+              {selectedDate && (
+                <div>
+                  <p className="mb-2 text-xs text-muted">Pick a time</p>
+                  <TimeSlotGrid
+                    date={selectedDate}
+                    selected={selectedSlot}
+                    onSelect={handleSelectSlot}
+                  />
+                </div>
+              )}
+
+              {slotTaken && (
+                <p className="text-sm text-red-400">
+                  That slot was just taken — pick another time.
+                </p>
+              )}
+
+              {selectedSlot && !slotTaken && (
+                <BookingForm
+                  slot={selectedSlot}
+                  duration={duration}
+                  onDurationChange={setDuration}
+                  onSuccess={setBooking}
+                  onSlotTaken={() => {
+                    setSlotTaken(true);
+                    setSelectedSlot(null);
+                  }}
+                />
+              )}
+            </div>
+          )}
+        </Card>
+      </div>
+    </main>
+  );
+}
