@@ -55,6 +55,13 @@ body {
   background: radial-gradient(circle, rgba(139, 92, 246, 0.35), transparent 70%);
 }
 
+/* Subtle "draft paper" dot grid — texture without competing with content on top of it. */
+.card-texture {
+  background-color: var(--surface);
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 18px 18px;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);

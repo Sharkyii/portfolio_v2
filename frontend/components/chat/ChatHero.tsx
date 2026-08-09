@@ -25,14 +25,18 @@ export function ChatHero() {
         {!hasStarted && (
           <div className="mb-10 text-center">
             <p className="mb-4 text-xs font-medium uppercase tracking-[0.2em] text-accent-2">
-              AI/ML Engineer
+              AI Engineer
             </p>
             <h1 className="text-4xl font-semibold tracking-tight sm:text-6xl">
               <span className="gradient-text">Sneh Kansagara</span>
             </h1>
+            <p className="mt-2 text-sm text-muted">
+              goes by <span className="text-foreground">Sharkyi</span> &middot; JEE percentile
+              99.35
+            </p>
             <p className="mx-auto mt-5 max-w-md text-muted">
-              Ask me anything — about a project, the code behind it, or just say hi. I can
-              also help you book a meeting.
+              Building AI systems, graph intelligence platforms, and contributing to open
+              source.
             </p>
           </div>
         )}

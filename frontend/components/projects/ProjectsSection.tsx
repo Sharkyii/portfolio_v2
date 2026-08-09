@@ -2,7 +2,7 @@
 
 import { api } from "@/lib/api";
 import { useFetch } from "@/lib/useFetch";
-import { ProjectCard } from "./ProjectCard";
+import { HorizontalScrollGallery } from "./HorizontalScrollGallery";
 
 export function ProjectsSection() {
   const state = useFetch(api.projects);
@@ -16,6 +16,7 @@ export function ProjectsSection() {
         <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
           Things I&apos;ve built
         </h2>
+        <p className="mt-3 text-sm text-muted">Keep scrolling — it moves sideways from here.</p>
       </div>
 
       {state.status === "loading" && (
@@ -24,10 +25,7 @@ export function ProjectsSection() {
       {state.status === "error" && (
         <p className="text-center text-muted">Couldn&apos;t load projects: {state.error}</p>
       )}
-      {state.status === "ready" &&
-        state.data.map((project, i) => (
-          <ProjectCard key={project.id} project={project} index={i} total={state.data.length} />
-        ))}
+      {state.status === "ready" && <HorizontalScrollGallery projects={state.data} />}
     </section>
   );
 }

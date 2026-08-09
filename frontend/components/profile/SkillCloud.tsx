@@ -1,14 +1,14 @@
-import { Badge } from "@/components/ui/Badge";
+import { SkillBubble } from "./SkillBubble";
 
 export function SkillCloud({ skills }: { skills: Record<string, string[]> }) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-8">
       {Object.entries(skills).map(([category, items]) => (
         <div key={category}>
-          <p className="mb-2 text-sm text-muted">{category}</p>
-          <div className="flex flex-wrap gap-2">
+          <p className="mb-4 text-sm text-muted">{category}</p>
+          <div className="flex flex-wrap gap-x-4 gap-y-8">
             {items.map((item) => (
-              <Badge key={item}>{item}</Badge>
+              <SkillBubble key={item} skill={item} />
             ))}
           </div>
         </div>
