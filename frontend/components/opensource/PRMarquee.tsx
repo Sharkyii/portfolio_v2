@@ -1,6 +1,6 @@
-import type { MergedPR } from "@/lib/types";
+import type { PullRequest } from "@/lib/types";
 
-export function PRMarquee({ prs }: { prs: MergedPR[] }) {
+export function PRMarquee({ prs }: { prs: PullRequest[] }) {
   if (prs.length === 0) return null;
 
   // Duplicated once so the CSS animation can loop seamlessly at -50%.

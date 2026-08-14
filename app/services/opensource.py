@@ -33,18 +33,18 @@ query($username: String!) {
 
 
 @dataclass
-class MergedPR:
+class PullRequest:
     title: str
     repo: str
     url: str
-    merged_at: str | None
+    updated_at: str | None
 
 
 @dataclass
 class OpenSourceStats:
     username: str
-    merged_pr_count: int
-    recent_prs: list[MergedPR]
+    total_pr_count: int
+    recent_prs: list[PullRequest]
     total_stars: int
     top_languages: list[tuple[str, int]] = field(default_factory=list)
     # None means the contribution calendar wasn't fetched (no GITHUB_TOKEN configured),
@@ -64,8 +64,8 @@ def _github_headers() -> dict[str, str]:
     return headers
 
 
-def _fetch_merged_prs(username: str, headers: dict[str, str], limit: int) -> tuple[int, list[MergedPR]]:
-    query = f"author:{username} type:pr is:merged"
+def _fetch_prs(username: str, headers: dict[str, str], limit: int) -> tuple[int, list[PullRequest]]:
+    query = f"author:{username} type:pr"
     response = httpx.get(
         "https://api.github.com/search/issues",
         params={"q": query, "sort": "updated", "order": "desc", "per_page": limit},
@@ -75,11 +75,11 @@ def _fetch_merged_prs(username: str, headers: dict[str, str], limit: int) -> tup
     response.raise_for_status()
     data = response.json()
     recent_prs = [
-        MergedPR(
+        PullRequest(
             title=item["title"],
             repo=item["repository_url"].split("/repos/")[-1],
             url=item["html_url"],
-            merged_at=item.get("closed_at"),
+            updated_at=item.get("updated_at"),
         )
         for item in data.get("items", [])
     ]
@@ -143,8 +143,20 @@ def get_github_stats(username: str | None = None, pr_limit: int = 10) -> OpenSou
 
     headers = _github_headers()
     try:
-        merged_pr_count, recent_prs = _fetch_merged_prs(username, headers, pr_limit)
+        total_pr_count, recent_prs = _fetch_prs(username, headers, pr_limit)
         total_stars, top_languages = _fetch_repo_stats(username, headers)
+    except httpx.HTTPStatusError as exc:
+        # An invalid/expired GITHUB_TOKEN shouldn't break the whole endpoint —
+        # public data is still readable unauthenticated, just rate-limited harder.
+        if exc.response.status_code == 401 and "Authorization" in headers:
+            headers = {k: v for k, v in headers.items() if k != "Authorization"}
+            try:
+                total_pr_count, recent_prs = _fetch_prs(username, headers, pr_limit)
+                total_stars, top_languages = _fetch_repo_stats(username, headers)
+            except httpx.HTTPError as retry_exc:
+                raise OpenSourceFetchError(f"GitHub API request failed: {retry_exc}") from retry_exc
+        else:
+            raise OpenSourceFetchError(f"GitHub API request failed: {exc}") from exc
     except httpx.HTTPError as exc:
         raise OpenSourceFetchError(f"GitHub API request failed: {exc}") from exc
 
@@ -154,7 +166,7 @@ def get_github_stats(username: str | None = None, pr_limit: int = 10) -> OpenSou
 
     stats = OpenSourceStats(
         username=username,
-        merged_pr_count=merged_pr_count,
+        total_pr_count=total_pr_count,
         recent_prs=recent_prs,
         total_stars=total_stars,
         top_languages=top_languages,

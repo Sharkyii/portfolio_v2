@@ -12,11 +12,11 @@ export interface Project {
   image: string | null;
 }
 
-export interface MergedPR {
+export interface PullRequest {
   title: string;
   repo: string;
   url: string;
-  merged_at: string | null;
+  updated_at: string | null;
 }
 
 export interface ContributionDay {
@@ -26,8 +26,8 @@ export interface ContributionDay {
 
 export interface OpenSourceStats {
   username: string;
-  merged_pr_count: number;
-  recent_prs: MergedPR[];
+  total_pr_count: number;
+  recent_prs: PullRequest[];
   total_stars: number;
   top_languages: [string, number][];
   contribution_calendar: ContributionDay[] | null;

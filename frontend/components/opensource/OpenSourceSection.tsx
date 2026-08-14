@@ -30,7 +30,7 @@ export function OpenSourceSection() {
       {state.status === "ready" && (
         <div className="space-y-8">
           <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
-            <StatCounter value={state.data.merged_pr_count} label="Merged PRs" />
+            <StatCounter value={state.data.total_pr_count} label="Total PRs" />
             <StatCounter value={state.data.total_stars} label="Stars earned" />
             <StatCounter value={state.data.top_languages.length} label="Languages used" />
           </div>
@@ -49,7 +49,7 @@ export function OpenSourceSection() {
             </Card>
 
             <Card className="flex flex-col justify-center p-6">
-              <p className="mb-4 text-sm text-muted">Recent merged PRs</p>
+              <p className="mb-4 text-sm text-muted">Recent PRs</p>
               <PRMarquee prs={state.data.recent_prs} />
             </Card>
           </div>
