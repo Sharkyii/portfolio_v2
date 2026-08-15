@@ -1,10 +1,16 @@
-// Maps skill names (from tools/resume/profile.json) to verified Devicon slugs
-// (github.com/devicon/devicon, MIT licensed) — checked individually against
-// the CDN before being added here, since a wrong slug means a broken image.
-// Concepts without a real logo (RAG, NAS, AutoML, ...) are left unmapped on
-// purpose; SkillBubble falls back to a monogram for those rather than
-// guessing a misleading icon.
-const SKILL_ICON_SLUGS: Record<string, string> = {
+// Maps skill names (from tools/resume/profile.json) to a real, verified icon
+// where one exists. Every URL below was checked against its CDN before being
+// added — a wrong slug means a broken image.
+//
+// Two sources:
+//  - Devicon (github.com/devicon/devicon, MIT) — "original" variants ship
+//    their own brand colors, rendered as-is.
+//  - Simple Icons (github.com/simple-icons/simple-icons, CC0) — broader
+//    coverage of newer/smaller tools, but each SVG is a single black path
+//    with no fill set. Rendered via <img>, that reads as invisible on a dark
+//    card, so `invert: true` marks these for a CSS invert filter in
+//    SkillBubble to turn them white.
+const DEVICON_SLUGS: Record<string, string> = {
   Python: "python",
   "C++": "cplusplus",
   Java: "java",
@@ -19,8 +25,35 @@ const SKILL_ICON_SLUGS: Record<string, string> = {
   Docker: "docker",
 };
 
-export function getSkillIconUrl(skill: string): string | null {
-  const slug = SKILL_ICON_SLUGS[skill];
-  if (!slug) return null;
-  return `https://cdn.jsdelivr.net/npm/devicon@latest/icons/${slug}/${slug}-original.svg`;
+const SIMPLE_ICON_SLUGS: Record<string, string> = {
+  DVC: "dvc",
+  Qdrant: "qdrant",
+  LangGraph: "langgraph",
+  Optuna: "optuna",
+  n8n: "n8n",
+};
+
+export interface SkillIcon {
+  url: string;
+  invert: boolean;
+}
+
+export function getSkillIcon(skill: string): SkillIcon | null {
+  const deviconSlug = DEVICON_SLUGS[skill];
+  if (deviconSlug) {
+    return {
+      url: `https://cdn.jsdelivr.net/npm/devicon@latest/icons/${deviconSlug}/${deviconSlug}-original.svg`,
+      invert: false,
+    };
+  }
+
+  const simpleSlug = SIMPLE_ICON_SLUGS[skill];
+  if (simpleSlug) {
+    return {
+      url: `https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/${simpleSlug}.svg`,
+      invert: true,
+    };
+  }
+
+  return null;
 }
