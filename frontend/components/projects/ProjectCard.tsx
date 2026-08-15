@@ -66,7 +66,7 @@ export function ProjectCard({ project }: { project: Project }) {
               href={project.live_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-gradient-to-r from-accent to-accent-2 px-3.5 py-1.5 text-xs font-medium text-white shadow-[0_0_0_1px_rgba(139,92,246,0.4)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(139,92,246,0.5)]"
+              className="rounded-full bg-gradient-to-r from-accent to-accent-2 px-3.5 py-1.5 text-xs font-medium text-background shadow-[0_0_0_1px_rgba(238,241,234,0.35)] transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_0_18px_rgba(238,241,234,0.4)]"
             >
               Live site →
             </a>
