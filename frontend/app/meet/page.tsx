@@ -7,20 +7,31 @@ import { ConfirmationCard } from "@/components/meeting/ConfirmationCard";
 import { DatePicker } from "@/components/meeting/DatePicker";
 import { NLScheduler } from "@/components/meeting/NLScheduler";
 import { TimeSlotGrid } from "@/components/meeting/TimeSlotGrid";
+import { TimezoneSelect } from "@/components/meeting/TimezoneSelect";
 import { Card } from "@/components/ui/Card";
 import { Glow } from "@/components/ui/Glow";
 import { cn } from "@/lib/cn";
+import { resolveTimeZone } from "@/lib/timezone";
 import type { BookingResponse } from "@/lib/types";
 
 type Mode = "pick" | "nl";
 
 export default function MeetPage() {
   const [mode, setMode] = useState<Mode>("pick");
+  const [timeZoneId, setTimeZoneId] = useState("auto");
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedSlot, setSelectedSlot] = useState<Date | null>(null);
   const [duration, setDuration] = useState(30);
   const [booking, setBooking] = useState<BookingResponse | null>(null);
   const [slotTaken, setSlotTaken] = useState(false);
+
+  const timeZone = resolveTimeZone(timeZoneId);
+
+  function handleTimezoneChange(id: string) {
+    setTimeZoneId(id);
+    setSelectedSlot(null);
+    setSlotTaken(false);
+  }
 
   function handleSelectDate(date: Date) {
     setSelectedDate(date);
@@ -79,16 +90,18 @@ export default function MeetPage() {
             <ConfirmationCard booking={booking} />
           ) : (
             <div className="space-y-6">
-              <div>
-                <p className="mb-2 text-xs text-muted">Pick a date</p>
-                <DatePicker selected={selectedDate} onSelect={handleSelectDate} />
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-muted">Pick a date</p>
+                <TimezoneSelect value={timeZoneId} onChange={handleTimezoneChange} />
               </div>
+              <DatePicker selected={selectedDate} onSelect={handleSelectDate} />
 
               {selectedDate && (
                 <div>
                   <p className="mb-2 text-xs text-muted">Pick a time</p>
                   <TimeSlotGrid
                     date={selectedDate}
+                    timeZone={timeZone}
                     selected={selectedSlot}
                     onSelect={handleSelectSlot}
                   />
@@ -104,6 +117,7 @@ export default function MeetPage() {
               {selectedSlot && !slotTaken && (
                 <BookingForm
                   slot={selectedSlot}
+                  timeZone={timeZone}
                   duration={duration}
                   onDurationChange={setDuration}
                   onSuccess={setBooking}

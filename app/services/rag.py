@@ -27,6 +27,19 @@ _STOPWORDS = {
 }
 _TOKEN_RE = re.compile(r"[a-zA-Z][a-zA-Z0-9']+")
 
+# Below this, a retrieval match is noise (incidental word overlap) rather than
+# a real answer — found via a real off-topic query ("are you free to work,
+# can we book a meeting") pulling back three unrelated projects as "sources"
+# because the old cutoff was just score > 0.
+_MIN_RELEVANCE_SCORE = 0.1
+
+_SCHEDULING_KEYWORDS_RE = re.compile(
+    # No "call" here — it's far too common in this domain (API call, tool call,
+    # function call) and would false-positive on real technical questions.
+    r"\b(meet|meeting|schedule|scheduling|available|availability|book|booking|calendar)\b",
+    re.IGNORECASE,
+)
+
 _ANSWER_SYSTEM_PROMPT = """You answer questions about {owner}'s software projects using only the \
 excerpts below — don't use outside knowledge about these projects. If the excerpts don't answer \
 the question, say so plainly instead of guessing. Keep the answer to a few sentences and mention \
@@ -158,7 +171,7 @@ def retrieve(query: str, k: int = 5) -> list[Chunk]:
     ]
 
     ranked = sorted(range(len(chunks)), key=lambda i: scores[i], reverse=True)
-    return [chunks[i] for i in ranked[:k] if scores[i] > 0]
+    return [chunks[i] for i in ranked[:k] if scores[i] > _MIN_RELEVANCE_SCORE]
 
 
 def answer_question(question: str) -> Answer:
@@ -168,6 +181,16 @@ def answer_question(question: str) -> Answer:
             sources=[],
             blocked=True,
             image_url="/api/meme",
+        )
+
+    if _SCHEDULING_KEYWORDS_RE.search(question):
+        return Answer(
+            answer=(
+                "I can't check calendars myself from here, but you can book time directly — "
+                'hit the "Book a meeting" button (or head to /meet) to pick a slot, or just '
+                "type when works for you there and it'll figure out the rest."
+            ),
+            sources=[],
         )
 
     chunks = retrieve(question)

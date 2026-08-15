@@ -1,14 +1,18 @@
 "use client";
 
 import { cn } from "@/lib/cn";
+import { formatInTimeZone, zonedTimeToUtc } from "@/lib/timezone";
 
-function slotsForDate(date: Date): Date[] {
+function slotsForDate(date: Date, timeZone: string): Date[] {
   const slots: Date[] = [];
   const now = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+
   for (let hour = 9; hour < 18; hour++) {
     for (const minute of [0, 30]) {
-      const slot = new Date(date);
-      slot.setHours(hour, minute, 0, 0);
+      const slot = zonedTimeToUtc(year, month, day, hour, minute, timeZone);
       if (slot.getTime() > now.getTime()) slots.push(slot);
     }
   }
@@ -17,15 +21,16 @@ function slotsForDate(date: Date): Date[] {
 
 interface TimeSlotGridProps {
   date: Date;
+  timeZone: string;
   selected: Date | null;
   onSelect: (slot: Date) => void;
 }
 
-export function TimeSlotGrid({ date, selected, onSelect }: TimeSlotGridProps) {
-  const slots = slotsForDate(date);
+export function TimeSlotGrid({ date, timeZone, selected, onSelect }: TimeSlotGridProps) {
+  const slots = slotsForDate(date, timeZone);
 
   if (slots.length === 0) {
-    return <p className="text-sm text-muted">No slots left today — pick another date.</p>;
+    return <p className="text-sm text-muted">No slots left that day — pick another date.</p>;
   }
 
   return (
@@ -43,7 +48,7 @@ export function TimeSlotGrid({ date, selected, onSelect }: TimeSlotGridProps) {
                 : "border-border text-foreground hover:border-border-strong hover:bg-white/5"
             )}
           >
-            {slot.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
+            {formatInTimeZone(slot, timeZone, { hour: "numeric", minute: "2-digit" })}
           </button>
         );
       })}

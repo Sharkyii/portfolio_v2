@@ -1,13 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0a0f;
-  --surface: #111116;
-  --surface-raised: #17171f;
-  --foreground: #f4f4f5;
-  --muted: #a1a1aa;
-  --border: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.14);
+  /* Base neutrals lifted from aristidebenoist.com's own color config
+     (bg #141414 / txt #bac4b8) — warmer and less saturated than a pure
+     black+white scheme. Accent stays purple, a separate earlier decision. */
+  --background: #141414;
+  --surface: #171717;
+  --surface-raised: #1e1e1e;
+  --foreground: #bac4b8;
+  --muted: #868d83;
+  --border: rgba(186, 196, 184, 0.08);
+  --border-strong: rgba(186, 196, 184, 0.16);
   --accent: #8b5cf6;
   --accent-2: #c084fc;
 }
@@ -58,7 +61,7 @@ body {
 /* Subtle "draft paper" dot grid — texture without competing with content on top of it. */
 .card-texture {
   background-color: var(--surface);
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(186, 196, 184, 0.08) 1px, transparent 1px);
   background-size: 18px 18px;
 }
 

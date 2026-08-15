@@ -3,10 +3,12 @@
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
 import { api, ApiError } from "@/lib/api";
+import { formatInTimeZone } from "@/lib/timezone";
 import type { BookingResponse } from "@/lib/types";
 
 interface BookingFormProps {
   slot: Date;
+  timeZone: string;
   duration: number;
   onDurationChange: (minutes: number) => void;
   onSuccess: (response: BookingResponse) => void;
@@ -15,6 +17,7 @@ interface BookingFormProps {
 
 export function BookingForm({
   slot,
+  timeZone,
   duration,
   onDurationChange,
   onSuccess,
@@ -60,8 +63,12 @@ export function BookingForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="rounded-xl border border-border bg-surface px-4 py-3 text-sm">
-        {slot.toLocaleDateString([], { weekday: "long", month: "long", day: "numeric" })} at{" "}
-        {slot.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}
+        {formatInTimeZone(slot, timeZone, { weekday: "long", month: "long", day: "numeric" })} at{" "}
+        {formatInTimeZone(slot, timeZone, {
+          hour: "numeric",
+          minute: "2-digit",
+          timeZoneName: "short",
+        })}
       </div>
 
       <div>
