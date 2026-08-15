@@ -50,6 +50,10 @@ class OpenSourceStats:
     # None means the contribution calendar wasn't fetched (no GITHUB_TOKEN configured),
     # not that there were zero contributions.
     contribution_calendar: list[dict] | None = None
+    # Timestamp of the most recent public GitHub activity (push, PR, etc.) —
+    # a "last commit: 3h ago" freshness signal. None if the events fetch fails;
+    # non-critical, so this never takes down the rest of the endpoint.
+    last_active_at: str | None = None
 
 
 class OpenSourceFetchError(RuntimeError):
@@ -104,6 +108,24 @@ def _fetch_repo_stats(username: str, headers: dict[str, str]) -> tuple[int, list
             lang_counts[lang] = lang_counts.get(lang, 0) + 1
     top_languages = sorted(lang_counts.items(), key=lambda kv: kv[1], reverse=True)[:6]
     return total_stars, top_languages
+
+
+def _fetch_last_active_at(username: str, headers: dict[str, str]) -> str | None:
+    try:
+        response = httpx.get(
+            f"https://api.github.com/users/{username}/events/public",
+            params={"per_page": 5},
+            headers=headers,
+            timeout=10.0,
+        )
+        response.raise_for_status()
+    except httpx.HTTPError:
+        return None
+
+    events = response.json()
+    if not events:
+        return None
+    return events[0].get("created_at")
 
 
 def _fetch_contribution_calendar(username: str, token: str) -> list[dict] | None:
@@ -163,6 +185,7 @@ def get_github_stats(username: str | None = None, pr_limit: int = 10) -> OpenSou
     contribution_calendar = (
         _fetch_contribution_calendar(username, settings.github_token) if settings.github_token else None
     )
+    last_active_at = _fetch_last_active_at(username, headers)
 
     stats = OpenSourceStats(
         username=username,
@@ -171,6 +194,7 @@ def get_github_stats(username: str | None = None, pr_limit: int = 10) -> OpenSou
         total_stars=total_stars,
         top_languages=top_languages,
         contribution_calendar=contribution_calendar,
+        last_active_at=last_active_at,
     )
     _cache[username] = (time.monotonic(), stats)
     return stats

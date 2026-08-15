@@ -32,6 +32,15 @@ export function ChatInput({ onSubmit, isLoading, autoFocus }: ChatInputProps) {
     if (autoFocus) inputRef.current?.focus();
   }, [autoFocus]);
 
+  useEffect(() => {
+    function handleFocusEvent() {
+      inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      inputRef.current?.focus();
+    }
+    window.addEventListener("focus-chat-input", handleFocusEvent);
+    return () => window.removeEventListener("focus-chat-input", handleFocusEvent);
+  }, []);
+
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
     if (!value.trim() || isLoading) return;

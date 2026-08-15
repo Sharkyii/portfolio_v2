@@ -1,6 +1,6 @@
 import type {
   ApiErrorBody,
-  AskResponse,
+  AskStreamEvent,
   AvailabilityResponse,
   BioResponse,
   BookingRequest,
@@ -41,9 +41,50 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>;
 }
 
+/** Reads /api/ask's NDJSON body (one JSON object per line — see
+ * AskStreamEvent) and yields parsed events as they arrive, rather than
+ * waiting for the full response like `request()` does. A trailing partial
+ * line is buffered until the next chunk completes it. */
+async function* streamAsk(question: string): AsyncGenerator<AskStreamEvent> {
+  const res = await fetch("/api/ask", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ question }),
+  });
+
+  if (!res.ok || !res.body) {
+    let detail = res.statusText;
+    try {
+      const body = (await res.json()) as ApiErrorBody;
+      if (body.detail) detail = body.detail;
+    } catch {
+      // body wasn't JSON — fall back to statusText
+    }
+    throw new ApiError(res.status, detail);
+  }
+
+  const reader = res.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+    const lines = buffer.split("\n");
+    buffer = lines.pop() ?? "";
+
+    for (const line of lines) {
+      if (line.trim()) yield JSON.parse(line) as AskStreamEvent;
+    }
+  }
+
+  if (buffer.trim()) yield JSON.parse(buffer) as AskStreamEvent;
+}
+
 export const api = {
-  ask: (question: string) =>
-    request<AskResponse>("/api/ask", { method: "POST", body: JSON.stringify({ question }) }),
+  askStream: streamAsk,
 
   bio: (message: string) =>
     request<BioResponse>("/api/bio", { method: "POST", body: JSON.stringify({ message }) }),

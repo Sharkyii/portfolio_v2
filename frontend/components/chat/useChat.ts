@@ -12,6 +12,7 @@ export interface ChatMessage {
   blocked?: boolean;
   imageUrl?: string | null;
   isError?: boolean;
+  isStreaming?: boolean;
 }
 
 let nextId = 0;
@@ -21,6 +22,10 @@ export function useChat() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  function patchMessage(id: string, patch: Partial<ChatMessage>) {
+    setMessages((prev) => prev.map((m) => (m.id === id ? { ...m, ...patch } : m)));
+  }
+
   const send = useCallback(async (question: string) => {
     const trimmed = question.trim();
     if (!trimmed) return;
@@ -28,19 +33,30 @@ export function useChat() {
     setMessages((prev) => [...prev, { id: newId(), role: "user", content: trimmed }]);
     setIsLoading(true);
 
+    const assistantId = newId();
+    setMessages((prev) => [
+      ...prev,
+      { id: assistantId, role: "assistant", content: "", isStreaming: true },
+    ]);
+
     try {
-      const res = await api.ask(trimmed);
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: newId(),
-          role: "assistant",
-          content: res.answer,
-          sources: res.sources,
-          blocked: res.blocked,
-          imageUrl: res.image_url,
-        },
-      ]);
+      for await (const event of api.askStream(trimmed)) {
+        if (event.type === "meta") {
+          patchMessage(assistantId, {
+            sources: event.sources,
+            blocked: event.blocked,
+            imageUrl: event.image_url,
+          });
+        } else if (event.type === "delta") {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId ? { ...m, content: m.content + event.text } : m
+            )
+          );
+        } else if (event.type === "done") {
+          patchMessage(assistantId, { isStreaming: false });
+        }
+      }
     } catch (err) {
       const message =
         err instanceof ApiError
@@ -48,10 +64,7 @@ export function useChat() {
             ? "The chatbot isn't configured yet — the Anthropic API key is missing on the backend."
             : err.message
           : "Something went wrong reaching the chatbot.";
-      setMessages((prev) => [
-        ...prev,
-        { id: newId(), role: "assistant", content: message, isError: true },
-      ]);
+      patchMessage(assistantId, { content: message, isError: true, isStreaming: false });
     } finally {
       setIsLoading(false);
     }

@@ -4,10 +4,12 @@ Corpus is ~10 short documents, so this hand-rolls a small TF-IDF ranker in
 pure Python instead of pulling in a vector DB or an embeddings API — right
 sized for the data, and keeps the Vercel function bundle small.
 """
+import json
 import math
 import os
 import re
-from dataclasses import dataclass
+from collections.abc import Iterator
+from dataclasses import asdict, dataclass
 from functools import lru_cache
 
 from app.config import get_settings
@@ -67,14 +69,6 @@ class Source:
     project_id: str
     title: str
     github_url: str | None
-
-
-@dataclass
-class Answer:
-    answer: str
-    sources: list[Source]
-    blocked: bool = False
-    image_url: str | None = None
 
 
 def _tokenize(text: str) -> list[str]:
@@ -174,46 +168,48 @@ def retrieve(query: str, k: int = 5) -> list[Chunk]:
     return [chunks[i] for i in ranked[:k] if scores[i] > _MIN_RELEVANCE_SCORE]
 
 
-def answer_question(question: str) -> Answer:
+_SCHEDULING_REDIRECT_TEXT = (
+    "I can't check calendars myself from here, but you can book time directly — "
+    'hit the "Book a meeting" button (or head to /meet) to pick a slot, or just '
+    "type when works for you there and it'll figure out the rest."
+)
+_NO_MATCH_TEXT = "I couldn't find anything in the project notes relevant to that question."
+
+
+@dataclass
+class PreparedAnswer:
+    """Everything resolved *before* streaming starts. Config errors (no
+    ANTHROPIC_API_KEY) have to surface as a real 503 — once a StreamingResponse
+    begins, the status is already committed as 200, so the client lookup and
+    any error it can raise has to happen here, synchronously, not inside the
+    generator that does the actual token streaming."""
+
+    sources: list[Source]
+    blocked: bool
+    image_url: str | None
+    canned_text: str | None  # set → no LLM call needed, this is the full answer
+    system_prompt: str | None  # set when canned_text isn't — streaming path
+    question: str
+
+
+def prepare_answer(question: str) -> PreparedAnswer:
     if is_spam_or_abusive(question):
-        return Answer(
-            answer="Nice try.",
-            sources=[],
-            blocked=True,
-            image_url="/api/meme",
-        )
+        return PreparedAnswer([], True, "/api/meme", "Nice try.", None, question)
 
     if _SCHEDULING_KEYWORDS_RE.search(question):
-        return Answer(
-            answer=(
-                "I can't check calendars myself from here, but you can book time directly — "
-                'hit the "Book a meeting" button (or head to /meet) to pick a slot, or just '
-                "type when works for you there and it'll figure out the rest."
-            ),
-            sources=[],
-        )
+        return PreparedAnswer([], False, None, _SCHEDULING_REDIRECT_TEXT, None, question)
 
     chunks = retrieve(question)
     if not chunks:
-        return Answer(
-            answer="I couldn't find anything in the project notes relevant to that question.",
-            sources=[],
-        )
+        return PreparedAnswer([], False, None, _NO_MATCH_TEXT, None, question)
 
     context = "\n\n".join(f"[{c.project_title}]\n{c.text}" for c in chunks)
     system_prompt = _ANSWER_SYSTEM_PROMPT.format(owner=get_settings().github_username, context=context)
 
     try:
-        client = _client()
+        _client()  # eager config check — raises before any response has started
     except BioGenerationError as exc:
         raise QAError(str(exc)) from exc
-
-    message = client.messages.create(
-        model=MODEL,
-        max_tokens=600,
-        system=system_prompt,
-        messages=[{"role": "user", "content": question}],
-    )
 
     seen: set[str] = set()
     sources: list[Source] = []
@@ -222,4 +218,38 @@ def answer_question(question: str) -> Answer:
             seen.add(c.project_id)
             sources.append(Source(c.project_id, c.project_title, c.github_url))
 
-    return Answer(answer=message.content[0].text, sources=sources)
+    return PreparedAnswer(sources, False, None, None, system_prompt, question)
+
+
+def _ndjson(payload: dict) -> str:
+    return json.dumps(payload) + "\n"
+
+
+def stream_answer(prepared: PreparedAnswer) -> Iterator[str]:
+    """NDJSON lines: one `meta` (sources/blocked/image_url, known up front
+    since retrieval already ran), then one or more `delta` (text chunks —
+    a single chunk for canned/short-circuit answers, token-by-token for a
+    real LLM generation), then `done`."""
+    yield _ndjson(
+        {
+            "type": "meta",
+            "sources": [asdict(s) for s in prepared.sources],
+            "blocked": prepared.blocked,
+            "image_url": prepared.image_url,
+        }
+    )
+
+    if prepared.canned_text is not None:
+        yield _ndjson({"type": "delta", "text": prepared.canned_text})
+    else:
+        client = _client()
+        with client.messages.stream(
+            model=MODEL,
+            max_tokens=600,
+            system=prepared.system_prompt,
+            messages=[{"role": "user", "content": prepared.question}],
+        ) as stream:
+            for text in stream.text_stream:
+                yield _ndjson({"type": "delta", "text": text})
+
+    yield _ndjson({"type": "done"})

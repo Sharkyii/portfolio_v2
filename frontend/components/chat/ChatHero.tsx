@@ -49,13 +49,6 @@ export function ChatHero() {
             {messages.map((m) => (
               <ChatMessageView key={m.id} message={m} />
             ))}
-            {isLoading && (
-              <div className="flex justify-start">
-                <div className="rounded-2xl border border-border bg-surface px-4 py-3 text-sm text-muted">
-                  Thinking...
-                </div>
-              </div>
-            )}
           </div>
         )}
 

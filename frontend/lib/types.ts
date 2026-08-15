@@ -31,6 +31,7 @@ export interface OpenSourceStats {
   total_stars: number;
   top_languages: [string, number][];
   contribution_calendar: ContributionDay[] | null;
+  last_active_at: string | null;
 }
 
 export interface AskSource {
@@ -39,12 +40,14 @@ export interface AskSource {
   github_url: string | null;
 }
 
-export interface AskResponse {
-  answer: string;
-  sources: AskSource[];
-  blocked: boolean;
-  image_url: string | null;
-}
+// /api/ask streams NDJSON lines matching this union — one "meta" (sources
+// are known up front, retrieval already ran), one or more "delta" (a single
+// chunk for canned/short-circuit answers, token-by-token for a real LLM
+// generation), then "done".
+export type AskStreamEvent =
+  | { type: "meta"; sources: AskSource[]; blocked: boolean; image_url: string | null }
+  | { type: "delta"; text: string }
+  | { type: "done" };
 
 export interface BioResponse {
   sonnet: string;
