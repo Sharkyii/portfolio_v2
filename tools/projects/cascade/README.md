@@ -2,12 +2,11 @@ https://github.com/Sharkyii/Cascade
 
 # Cascade
 
-Cascade is a streaming ML platform that turns Indian financial news and regulatory
-filings into structured, confidence-scored events. It runs incoming documents through
-a cascade of pretrained models, resolves the companies and people mentioned against a
-knowledge graph, and propagates the second-order impact of an event through that graph
-(a negative filing at a supplier, for example, should surface the customers who are
-exposed to it).
+When a supplier misses a regulatory filing, who else needs to know? Cascade watches
+Indian financial news and regulatory filings in real time, turns them into
+structured, confidence-scored events, and traces the ripple effects through a
+knowledge graph of the companies and people involved — so a negative disclosure at
+one company surfaces exactly who else is exposed to it, not just the headline.
 
 Cascade does not train models and does not produce trading advice. It extracts facts
 and attaches a confidence score to them. What a reader does with that fact is up to
