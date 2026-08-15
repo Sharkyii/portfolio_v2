@@ -42,8 +42,14 @@ export function HorizontalScrollGallery({ projects }: { projects: Project[] }) {
     >
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         <motion.div ref={rowRef} style={{ x }} className="flex gap-6 px-6 sm:px-12">
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.id}
+              project={project}
+              index={index}
+              total={projects.length}
+              scrollYProgress={scrollYProgress}
+            />
           ))}
         </motion.div>
       </div>

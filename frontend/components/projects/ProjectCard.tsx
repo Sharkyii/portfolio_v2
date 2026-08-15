@@ -1,6 +1,16 @@
+"use client";
+
+import { motion, useTransform, type MotionValue } from "motion/react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/Badge";
 import type { Project } from "@/lib/types";
+
+interface ProjectCardProps {
+  project: Project;
+  index: number;
+  total: number;
+  scrollYProgress: MotionValue<number>;
+}
 
 /** Every card is the same fixed box regardless of the source image's native
  * dimensions — `object-cover` crops to fill its own contained region, so a
@@ -9,10 +19,23 @@ import type { Project } from "@/lib/types";
  * full-bleeding behind the text: several project images are themselves dense
  * (dashboards, product screenshots, even the hand-drawn covers already carry
  * their own title text), and stacking more text on top of that read as
- * cluttered and illegible. */
-export function ProjectCard({ project }: { project: Project }) {
+ * cluttered and illegible.
+ *
+ * Scale/opacity are tied to the shared horizontal-scroll progress rather than
+ * each card's own visibility, so the card whose "ideal" position lines up
+ * with the current scroll point reads as the focused one — a carousel-style
+ * pulse instead of a flat, purely-linear slide. */
+export function ProjectCard({ project, index, total, scrollYProgress }: ProjectCardProps) {
+  const idealProgress = total > 1 ? index / (total - 1) : 0;
+  const distance = useTransform(scrollYProgress, (p) => Math.abs(p - idealProgress));
+  const scale = useTransform(distance, [0, 0.35], [1, 0.9]);
+  const opacity = useTransform(distance, [0, 0.45], [1, 0.55]);
+
   return (
-    <div className="group flex h-[520px] w-[340px] flex-shrink-0 flex-col overflow-hidden rounded-3xl border border-border card-texture transition-colors duration-200 hover:border-border-strong sm:w-[400px]">
+    <motion.div
+      style={{ scale, opacity }}
+      className="group flex h-[520px] w-[340px] flex-shrink-0 flex-col overflow-hidden rounded-3xl border border-border card-texture transition-colors duration-200 hover:border-border-strong sm:w-[400px]"
+    >
       <div className="relative h-44 w-full flex-shrink-0 overflow-hidden bg-surface-raised sm:h-48">
         {project.image ? (
           <Image
@@ -28,7 +51,7 @@ export function ProjectCard({ project }: { project: Project }) {
             {project.title}
           </div>
         )}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface/90 via-transparent to-transparent" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
       </div>
 
       <div className="flex flex-1 flex-col gap-3 p-6">
@@ -73,6 +96,6 @@ export function ProjectCard({ project }: { project: Project }) {
           )}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
