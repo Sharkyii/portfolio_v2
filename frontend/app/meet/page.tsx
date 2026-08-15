@@ -6,7 +6,7 @@ import { BookingForm } from "@/components/meeting/BookingForm";
 import { ConfirmationCard } from "@/components/meeting/ConfirmationCard";
 import { DatePicker } from "@/components/meeting/DatePicker";
 import { NLScheduler } from "@/components/meeting/NLScheduler";
-import { TimeSlotGrid } from "@/components/meeting/TimeSlotGrid";
+import { TimePicker } from "@/components/meeting/TimePicker";
 import { TimezoneSelect } from "@/components/meeting/TimezoneSelect";
 import { Card } from "@/components/ui/Card";
 import { Glow } from "@/components/ui/Glow";
@@ -39,7 +39,7 @@ export default function MeetPage() {
     setSlotTaken(false);
   }
 
-  function handleSelectSlot(slot: Date) {
+  function handleSelectSlot(slot: Date | null) {
     setSelectedSlot(slot);
     setSlotTaken(false);
   }
@@ -97,15 +97,12 @@ export default function MeetPage() {
               <DatePicker selected={selectedDate} onSelect={handleSelectDate} />
 
               {selectedDate && (
-                <div>
-                  <p className="mb-2 text-xs text-muted">Pick a time</p>
-                  <TimeSlotGrid
-                    date={selectedDate}
-                    timeZone={timeZone}
-                    selected={selectedSlot}
-                    onSelect={handleSelectSlot}
-                  />
-                </div>
+                <TimePicker
+                  date={selectedDate}
+                  timeZone={timeZone}
+                  selected={selectedSlot}
+                  onSelect={handleSelectSlot}
+                />
               )}
 
               {slotTaken && (

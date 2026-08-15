@@ -70,3 +70,18 @@ export function formatInTimeZone(
 ): string {
   return new Intl.DateTimeFormat("en-US", { ...options, timeZone }).format(date);
 }
+
+/** "HH:MM" (24h, zero-padded) for `date` as read in `timeZone` — the exact
+ * format `<input type="time">` needs for its value prop. Uses formatToParts
+ * for the same reason as zonedTimeToUtc: no dependency on locale string
+ * quirks or the runtime's own timezone. */
+export function toTimeInputValue(date: Date, timeZone: string): string {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone,
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(date);
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "00";
+  return `${get("hour")}:${get("minute")}`;
+}
